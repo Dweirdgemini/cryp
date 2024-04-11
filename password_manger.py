@@ -1,6 +1,6 @@
 from cryptography.fernet import Fernet
 import os.path
-import cryptography  # Import the cryptography module
+import cryptography 
 
 # Function to generate and write a new key to a file
 def write_key():
@@ -43,10 +43,16 @@ def view():
             for line in f.readlines():
                 data = line.rstrip()
                 user, passw = data.split("|")
-                decrypted_password = fer.decrypt(passw.encode()).decode()
-                print("User:", user, "| Password:", decrypted_password)
-    except cryptography.fernet.InvalidToken:
-        print("Error: Unable to decrypt password. The data may be corrupted or was encrypted with a different key.")
+                try:
+                    decrypted_password = fer.decrypt(passw.encode()).decode()
+                    print("User:", user, "| Password:", decrypted_password)
+                except cryptography.fernet.InvalidToken:
+                    print("Error: Unable to decrypt password for user", user)
+                except Exception as e:
+                    print("Error:", e)
+    except FileNotFoundError:
+        print("Error: passwords.txt file not found.")
+
 
 # Function to add passwords
 def add():
@@ -54,7 +60,7 @@ def add():
     pwd = input("Enter password: ")
     # Encrypt password and write to file
     with open('passwords.txt', 'a') as f:
-        f.write(name + "|" + str(fer.encrypt(pwd.encode())).decode() + "\n")
+        f.write(name + "|" + str(fer.encrypt(pwd.encode()))+ "\n")
 
 # Main loop
 while True:
