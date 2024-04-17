@@ -1,6 +1,6 @@
 from cryptography.fernet import Fernet
 import os.path
-import cryptography 
+import cryptography
 
 # Function to generate and write a new key to a file
 def write_key():
@@ -21,19 +21,13 @@ def load_key():
 # Get the master password from user input
 master_pwd = input("Enter the master password: ")
 
-# Combine master password with some input (seems like you wanted to concatenate two inputs?)
-master_pwd += input("Enter master password again: ")
-
 # Encode the master password
 master_pwd = master_pwd.encode()
 
 # Load the key
 key = load_key()
 
-# Combine key and master password
-key += master_pwd
-
-# Create a Fernet instance with the combined key
+# Create a Fernet instance with the key
 fer = Fernet(key)
 
 # Function to view passwords
@@ -52,6 +46,8 @@ def view():
                     print("Error:", e)
     except FileNotFoundError:
         print("Error: passwords.txt file not found.")
+    except Exception as e:
+        print("Error:", e)
 
 
 # Function to add passwords
@@ -59,8 +55,21 @@ def add():
     name = input('Enter account name: ')
     pwd = input("Enter password: ")
     # Encrypt password and write to file
+    try:
+        encrypted_password = fer.encrypt(pwd.encode()).decode()
+        with open('passwords.txt', 'a') as f:
+            f.write(name + "|" + encrypted_password + "\n")
+    except Exception as e:
+        print("Error:", e)
+
+# Function to add passwords
+def add():
+    name = input('Enter account name: ')
+    pwd = input("Enter password: ")
+    # Encrypt password and write to file
     with open('passwords.txt', 'a') as f:
-        f.write(name + "|" + str(fer.encrypt(pwd.encode()))+ "\n")
+        encrypted_password = fer.encrypt(pwd.encode()).decode()
+        f.write(name + "|" + encrypted_password + "\n")
 
 # Main loop
 while True:
