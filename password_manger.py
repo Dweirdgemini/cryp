@@ -62,15 +62,19 @@ def add():
     except Exception as e:
         print("Error:", e)
 
-# Function to add passwords
-def add():
-    name = input('Enter account name: ')
-    pwd = input("Enter password: ")
-    # Encrypt password and write to file
-    with open('passwords.txt', 'a') as f:
-        encrypted_password = fer.encrypt(pwd.encode()).decode()
-        f.write(name + "|" + encrypted_password + "\n")
-
+# Function to remove a password
+def remove(passwords):
+    try:
+        index = int(input("Enter the index of the password you want to remove: ")) - 1
+        if 0 <= index < len(passwords):
+            del passwords[index]
+            with open('passwords.txt', 'w') as f:
+                f.writelines(passwords)
+            print("Password removed successfully.")
+        else:
+            print("Invalid index.")
+    except ValueError:
+        print("Invalid input. Please enter a valid index.")
 # Main loop
 while True:
     mode = input("Would you like to add a new password or view existing ones (view, add), press q to quit? ").lower()
