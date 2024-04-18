@@ -1,6 +1,6 @@
 My Python Projects Repository
 
-This repository contains various Python programs and projects developed by [Your Name].
+This repository contains various Python programs and projects developed by [Dweirdgemini(Dev_ng)].
 Table of Contents
 
     Introduction
