@@ -63,18 +63,6 @@ def add():
         print("Error:", e)
 
 # Function to remove a password
-def remove(passwords):
-    try:
-        index = int(input("Enter the index of the password you want to remove: ")) - 1
-        if 0 <= index < len(passwords):
-            del passwords[index]
-            with open('passwords.txt', 'w') as f:
-                f.writelines(passwords)
-            print("Password removed successfully.")
-        else:
-            print("Invalid index.")
-    except ValueError:
-        print("Invalid input. Please enter a valid index.")
 # Main loop
 while True:
     mode = input("Would you like to add a new password or view existing ones (view, add), press q to quit? ").lower()
